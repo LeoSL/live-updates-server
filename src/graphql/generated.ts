@@ -19,7 +19,7 @@ export type Scalars = {
 
 export type MarketDataResponse = {
   __typename?: 'MarketDataResponse';
-  data?: Maybe<Scalars['JSON']>;
+  marketDataResponse?: Maybe<Scalars['JSON']>;
 };
 
 export type Mutation = {
@@ -146,7 +146,7 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MarketDataResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarketDataResponse'] = ResolversParentTypes['MarketDataResponse']> = {
-  data?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  marketDataResponse?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

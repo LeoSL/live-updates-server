@@ -3,5 +3,5 @@ extend type Query {
 }
 
 type MarketDataResponse {
-  data: JSON
+  marketDataResponse: JSON
 }
