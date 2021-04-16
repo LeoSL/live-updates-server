@@ -1,0 +1,7 @@
+extend type Query {
+  marketData(baseTicker: String!, quoteTicker: String!): MarketDataResponse!
+}
+
+type MarketDataResponse {
+  data: JSON
+}
