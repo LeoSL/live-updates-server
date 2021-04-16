@@ -25,6 +25,7 @@ export type MarketDataResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']>;
+  generateMarketData: MarketDataResponse;
 };
 
 export type Query = {
@@ -37,6 +38,12 @@ export type Query = {
 export type QueryMarketDataArgs = {
   baseTicker: Scalars['String'];
   quoteTicker: Scalars['String'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  _empty?: Maybe<Scalars['String']>;
+  marketData?: Maybe<MarketDataResponse>;
 };
 
 
@@ -123,6 +130,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Query: ResolverTypeWrapper<{}>;
+  Subscription: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -134,6 +142,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   String: Scalars['String'];
   Query: {};
+  Subscription: {};
   Boolean: Scalars['Boolean'];
 };
 
@@ -152,11 +161,17 @@ export type MarketDataResponseResolvers<ContextType = any, ParentType extends Re
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  generateMarketData?: Resolver<ResolversTypes['MarketDataResponse'], ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   marketData?: Resolver<ResolversTypes['MarketDataResponse'], ParentType, ContextType, RequireFields<QueryMarketDataArgs, 'baseTicker' | 'quoteTicker'>>;
+};
+
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  _empty?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "_empty", ParentType, ContextType>;
+  marketData?: SubscriptionResolver<Maybe<ResolversTypes['MarketDataResponse']>, "marketData", ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -165,6 +180,7 @@ export type Resolvers<ContextType = any> = {
   MarketDataResponse?: MarketDataResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
 };
 
 

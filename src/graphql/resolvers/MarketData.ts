@@ -1,7 +1,10 @@
 import { IResolvers } from 'graphql-tools'
 import { QueryMarketDataArgs, MarketDataResponse } from '../generated'
+import { PubSub } from 'apollo-server-express'
 
 import { mockDataResponse } from '../mockDB'
+
+const pubsub = new PubSub()
 
 type TradingPair = {
   displaySymbol: string
@@ -40,6 +43,17 @@ export const MarketDataResolvers: IResolvers = {
 
       return {
         marketDataResponse: data,
+      }
+    },
+  },
+  Mutation: {
+    async generateMarketData(_: void, args: any): Promise<MarketDataResponse> {
+      pubsub.publish('DATA_GENERATED', {
+        marketData: mockDataResponse.tradingPairs,
+      })
+
+      return {
+        marketDataResponse: mockDataResponse.tradingPairs,
       }
     },
   },

@@ -2,6 +2,14 @@ extend type Query {
   marketData(baseTicker: String!, quoteTicker: String!): MarketDataResponse!
 }
 
+extend type Mutation {
+  generateMarketData: MarketDataResponse!
+}
+
+extend type Subscription {
+  marketData: MarketDataResponse
+}
+
 type MarketDataResponse {
   marketDataResponse: JSON
 }
