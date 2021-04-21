@@ -5,14 +5,14 @@ import { PubSub } from 'apollo-server-express'
 
 import { QueryMarketDataArgs, MarketDataResponse } from './graphql/generated'
 import { filterArgsPerTickerPair } from './graphql/resolvers/MarketData'
-import { generateRandomMarketDataResponse } from './graphql/mockDB'
+import { generateRandomMarketDataResponse } from './graphql/mockdb'
 
 const pubsub = new PubSub()
 
 const generateMarketData = () => {
   const marketData = generateRandomMarketDataResponse()
 
-  console.log('Market data generated: ', JSON.stringify(marketData))
+  // console.log('Market data generated: ', JSON.stringify(marketData))
 
   pubsub.publish('DATA_GENERATED', {
     marketData,
@@ -82,7 +82,10 @@ const MarketDataResolvers: IResolvers = {
 }
 
 async function startApolloServer() {
-  const PORT = 4000
+  const environment = process.env.NODE_ENV
+  const PORT = environment === 'local' ? 4000 : process.env.PORT
+  const httpURL = process.env.SERVER_HTTP_LOCAL_URL
+  const wsURL = process.env.SERVER_WS_LOCAL_URL
 
   const app = express()
   const server = new ApolloServer({
@@ -108,11 +111,9 @@ async function startApolloServer() {
   // @ts-ignore
   await new Promise((resolve) => httpServer.listen(PORT, resolve))
 
+  console.log(`🚀 Server ready at ${httpURL}:${PORT}${server.graphqlPath}`)
   console.log(
-    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`,
-  )
-  console.log(
-    `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`,
+    `🚀 Subscriptions ready at ${wsURL}:${PORT}${server.subscriptionsPath}`,
   )
 
   generateMarketData()

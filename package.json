@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "NODE_ENV=production nodemon src/index.ts",
+    "start:local": "NODE_ENV=local SERVER_HTTP_LOCAL_URL=http://localhost SERVER_WS_LOCAL_URL=ws://localhost nodemon src/index.ts",
     "test": "jest",
     "build": "tsc --project ./",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "author": "LeoSL",
   "license": "ISC",
+  "engines": {
+    "node": "12.14.0"
+  },
   "dependencies": {
     "apollo-server-express": "2.23.0",
     "express": "4.17.1",

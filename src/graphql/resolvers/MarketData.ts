@@ -2,7 +2,7 @@ import { IResolvers } from 'graphql-tools'
 import { QueryMarketDataArgs, MarketDataResponse } from '../generated'
 import { PubSub } from 'apollo-server-express'
 
-import { mockDataResponse } from '../mockDB'
+import { mockDataResponse } from '../mockdb'
 
 const pubsub = new PubSub()
 

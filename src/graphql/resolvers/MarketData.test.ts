@@ -1,4 +1,4 @@
-import { mockDataResponse } from '../mockDB'
+import { mockDataResponse } from '../mockdb'
 import { filterArgsPerTickerPair } from './MarketData'
 
 describe('#filterArgsPerTickerPair', () => {
