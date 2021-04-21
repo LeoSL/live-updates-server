@@ -2,6 +2,7 @@ import random from 'random'
 
 const generateRandomInt = (max: number, min: number): string =>
   random.int(max, min).toString()
+
 const generateNormalDist = (): string => random.normal()().toString()
 
 export const generateRandomMarketDataResponse = () => {

@@ -5,16 +5,14 @@ import { PubSub } from 'apollo-server-express'
 
 import { QueryMarketDataArgs, MarketDataResponse } from './graphql/generated'
 import { filterArgsPerTickerPair } from './graphql/resolvers/MarketData'
-import {
-  generateRandomMarketDataResponse,
-  mockDataResponse,
-} from './graphql/mockDB'
+import { generateRandomMarketDataResponse } from './graphql/mockDB'
 
 const pubsub = new PubSub()
 
 const generateMarketData = () => {
   const marketData = generateRandomMarketDataResponse()
-  console.log('inside Generation..........', JSON.stringify(marketData))
+
+  console.log('Market data generated: ', JSON.stringify(marketData))
 
   pubsub.publish('DATA_GENERATED', {
     marketData,
@@ -54,9 +52,11 @@ const MarketDataResolvers: IResolvers = {
       args: QueryMarketDataArgs,
     ): Promise<MarketDataResponse> {
       const { baseTicker, quoteTicker } = args
+      const mockDataResponse = generateRandomMarketDataResponse()
+        .marketDataResponse.tradingPairs
       const data = filterArgsPerTickerPair(
         `${baseTicker}-${quoteTicker}`,
-        mockDataResponse.tradingPairs,
+        mockDataResponse,
       )
 
       if (data == null || data.length === 0) {
