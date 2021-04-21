@@ -7,7 +7,6 @@
     "start": "NODE_ENV=production nodemon src/index.ts",
     "start:local": "NODE_ENV=local SERVER_HTTP_LOCAL_URL=http://localhost SERVER_WS_LOCAL_URL=ws://localhost nodemon src/index.ts",
     "test": "jest",
-    "build": "tsc --project ./",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "author": "LeoSL",
