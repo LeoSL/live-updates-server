@@ -5,7 +5,7 @@ import { PubSub } from 'apollo-server-express'
 
 import { QueryMarketDataArgs, MarketDataResponse } from './graphql/generated'
 import { filterArgsPerTickerPair } from './graphql/resolvers/MarketData'
-import { generateRandomMarketDataResponse } from './graphql/mockdb'
+import { generateRandomMarketDataResponse } from './graphql/mock-db'
 
 const pubsub = new PubSub()
 
