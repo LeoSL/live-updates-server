@@ -84,7 +84,7 @@ const MarketDataResolvers: IResolvers = {
 async function startApolloServer() {
   const environment = process.env.NODE_ENV
   const PORT = environment === 'local' ? 4000 : process.env.PORT
-
+  console.log('📈📈📈📈 PORT 📈📈📈', PORT)
   const httpURL = process.env.SERVER_HTTP_URL
   const wsURL = process.env.SERVER_WS_URL
 
@@ -117,7 +117,7 @@ async function startApolloServer() {
     `🚀 Subscriptions ready at ${wsURL}:${PORT}${server.subscriptionsPath}`,
   )
 
-  console.log('🚀🚀🚀🚀🚀 LOGGING ENV VARS - ', process.env)
+  // console.log('🚀🚀🚀🚀🚀 LOGGING ENV VARS - ', process.env)
 
   generateMarketData()
 
