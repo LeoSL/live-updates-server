@@ -85,9 +85,8 @@ async function startApolloServer() {
   const environment = process.env.NODE_ENV
   const PORT = environment === 'local' ? 4000 : process.env.PORT
 
-  const httpURL =
-    process.env.SERVER_HTTP_URL ?? process.env.SERVER_HTTP_LOCAL_URL
-  const wsURL = process.env.SERVER_WS_URL ?? process.env.SERVER_WS_LOCAL_URL
+  const httpURL = process.env.SERVER_HTTP_URL
+  const wsURL = process.env.SERVER_WS_URL
 
   const app = express()
   const server = new ApolloServer({
