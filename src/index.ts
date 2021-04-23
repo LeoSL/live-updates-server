@@ -1,18 +1,20 @@
+import 'graphql-import-node'
 import express from 'express'
 import http from 'http'
-import { ApolloServer, gql, IResolvers } from 'apollo-server-express'
-import { PubSub } from 'apollo-server-express'
-
-import { QueryMarketDataArgs, MarketDataResponse } from './graphql/generated'
-import { filterArgsPerTickerPair } from './graphql/resolvers/MarketData'
+import { GraphQLSchema } from 'graphql'
+import {
+  ApolloServer,
+  makeExecutableSchema,
+  PubSub,
+} from 'apollo-server-express'
+import * as marketDataTypeDefs from './graphql/schemas/marketData.graphql'
+import { MarketDataResolvers } from './graphql/resolvers/MarketData'
 import { generateRandomMarketDataResponse } from './graphql/mock-db'
 
 const pubsub = new PubSub()
 
-const generateMarketData = () => {
+const generateMarketData = (): void => {
   const marketData = generateRandomMarketDataResponse()
-
-  // console.log('Market data generated: ', JSON.stringify(marketData))
 
   pubsub.publish('DATA_GENERATED', {
     marketData,
@@ -21,84 +23,28 @@ const generateMarketData = () => {
   setTimeout(generateMarketData, 1000)
 }
 
-// TypeDefs --------------------
+const schema: GraphQLSchema = makeExecutableSchema({
+  typeDefs: marketDataTypeDefs,
+  resolvers: MarketDataResolvers(pubsub),
+})
 
-const typeDefs = gql`
-  scalar JSON
+const startApolloServer = async () => {
+  const PORT = process.env.NODE_ENV === 'local' ? 4000 : process.env.PORT
+  console.log('📈 SERVER PORT:', PORT)
 
-  type Query {
-    marketData(baseTicker: String!, quoteTicker: String!): MarketDataResponse!
-  }
-
-  type Mutation {
-    generateMarketData: MarketDataResponse!
-  }
-
-  type Subscription {
-    marketData: MarketDataResponse
-  }
-
-  type MarketDataResponse {
-    marketDataResponse: JSON
-  }
-`
-
-// Resolvers ----------------
-
-const MarketDataResolvers: IResolvers = {
-  Query: {
-    async marketData(
-      _: void,
-      args: QueryMarketDataArgs,
-    ): Promise<MarketDataResponse> {
-      const { baseTicker, quoteTicker } = args
-      const mockDataResponse = generateRandomMarketDataResponse()
-        .marketDataResponse.tradingPairs
-      const data = filterArgsPerTickerPair(
-        `${baseTicker}-${quoteTicker}`,
-        mockDataResponse,
-      )
-
-      if (data == null || data.length === 0) {
-        console.error('❌ Error: Ticker Pair not found', args)
-        return {
-          marketDataResponse: undefined,
-        }
-      }
-
-      console.log('📚 Args', args)
-
-      return {
-        marketDataResponse: data,
-      }
-    },
-  },
-
-  Subscription: {
-    marketData: {
-      subscribe: () => pubsub.asyncIterator(['DATA_GENERATED']),
-    },
-  },
-}
-
-async function startApolloServer() {
-  const environment = process.env.NODE_ENV
-  const PORT = environment === 'local' ? 4000 : process.env.PORT
-  console.log('📈📈📈📈 PORT 📈📈📈', PORT)
   const httpURL = process.env.SERVER_HTTP_URL
   const wsURL = process.env.SERVER_WS_URL
 
   const app = express()
   const server = new ApolloServer({
-    typeDefs,
-    resolvers: MarketDataResolvers,
+    schema,
     subscriptions: {
       path: '/subscriptions',
       onConnect: (connectionParams, webSocket, context) => {
-        console.log('Client connected')
+        console.log('⚡️ Client connected')
       },
       onDisconnect: (webSocket, context) => {
-        console.log('Client disconnected')
+        console.log('⚡️ Client disconnected')
       },
     },
   })
@@ -116,8 +62,6 @@ async function startApolloServer() {
   console.log(
     `🚀 Subscriptions ready at ${wsURL}:${PORT}${server.subscriptionsPath}`,
   )
-
-  // console.log('🚀🚀🚀🚀🚀 LOGGING ENV VARS - ', process.env)
 
   generateMarketData()
 

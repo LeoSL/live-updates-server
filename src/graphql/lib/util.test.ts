@@ -1,5 +1,5 @@
 import { mockDataResponse } from '../mock-db'
-import { filterArgsPerTickerPair } from './MarketData'
+import { filterArgsPerTickerPair } from './util'
 
 describe('#filterArgsPerTickerPair', () => {
   it('returns only the requested trading pairs', () => {

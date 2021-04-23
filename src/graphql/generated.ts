@@ -12,9 +12,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   JSON: any;
-  JSONObject: any;
 };
-
 
 
 export type MarketDataResponse = {
@@ -22,15 +20,8 @@ export type MarketDataResponse = {
   marketDataResponse?: Maybe<Scalars['JSON']>;
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  _empty?: Maybe<Scalars['String']>;
-  generateMarketData: MarketDataResponse;
-};
-
 export type Query = {
   __typename?: 'Query';
-  _empty?: Maybe<Scalars['String']>;
   marketData: MarketDataResponse;
 };
 
@@ -42,7 +33,6 @@ export type QueryMarketDataArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  _empty?: Maybe<Scalars['String']>;
   marketData?: Maybe<MarketDataResponse>;
 };
 
@@ -125,11 +115,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
-  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   MarketDataResponse: ResolverTypeWrapper<MarketDataResponse>;
-  Mutation: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
   Query: ResolverTypeWrapper<{}>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   Subscription: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
@@ -137,11 +125,9 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   JSON: Scalars['JSON'];
-  JSONObject: Scalars['JSONObject'];
   MarketDataResponse: MarketDataResponse;
-  Mutation: {};
-  String: Scalars['String'];
   Query: {};
+  String: Scalars['String'];
   Subscription: {};
   Boolean: Scalars['Boolean'];
 };
@@ -150,35 +136,22 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'JSON';
 }
 
-export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
-  name: 'JSONObject';
-}
-
 export type MarketDataResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarketDataResponse'] = ResolversParentTypes['MarketDataResponse']> = {
   marketDataResponse?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  generateMarketData?: Resolver<ResolversTypes['MarketDataResponse'], ParentType, ContextType>;
-};
-
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   marketData?: Resolver<ResolversTypes['MarketDataResponse'], ParentType, ContextType, RequireFields<QueryMarketDataArgs, 'baseTicker' | 'quoteTicker'>>;
 };
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  _empty?: SubscriptionResolver<Maybe<ResolversTypes['String']>, "_empty", ParentType, ContextType>;
   marketData?: SubscriptionResolver<Maybe<ResolversTypes['MarketDataResponse']>, "marketData", ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   JSON?: GraphQLScalarType;
-  JSONObject?: GraphQLScalarType;
   MarketDataResponse?: MarketDataResponseResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
 };
