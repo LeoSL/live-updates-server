@@ -2,6 +2,8 @@
 
 - The Node.js server application for the Market Live Updates client. Powered by Express, Apollo Server and WebSockets!
 
+![marketLiveUpdatesGIF](https://user-images.githubusercontent.com/6999140/115975309-a713b800-a531-11eb-9b40-04000d3c3e14.gif)
+
 ## Install && Run
 
 Make sure you have the same Node version by running `nvm use`.
@@ -14,3 +16,4 @@ npm run start:local
 ```
 
 ## Architecture
+![Market Live Updates@2x (4)](https://user-images.githubusercontent.com/6999140/115975348-f659e880-a531-11eb-860c-bf9bbd7696b8.png)
