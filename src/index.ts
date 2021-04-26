@@ -7,7 +7,7 @@ import {
   makeExecutableSchema,
   PubSub,
 } from 'apollo-server-express'
-import * as marketDataTypeDefs from './graphql/schemas/marketData.graphql'
+import * as marketDataTypeDefs from './graphql/types/marketData.graphql'
 import { MarketDataResolvers } from './graphql/resolvers/MarketData'
 import { generateRandomMarketDataResponse } from './graphql/mock-db'
 
