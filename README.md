@@ -1,5 +1,5 @@
 # 🚀 Market Live Updates Server
-- 💡 Looking for the client repository? [Click here](https://github.com/LeoSL/live-update).
+- 💡 Looking for the client repository? [Click here](https://github.com/LeoSL/live-updates).
 
 The Node.js server application for the Market Live Updates client. Powered by Express, Apollo Server and WebSockets!
 
