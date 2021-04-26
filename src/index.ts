@@ -7,14 +7,19 @@ import {
   makeExecutableSchema,
   PubSub,
 } from 'apollo-server-express'
+
 import * as marketDataTypeDefs from './graphql/types/marketData.graphql'
 import { MarketDataResolvers } from './graphql/resolvers/MarketData'
-import { generateRandomMarketDataResponse } from './graphql/mock-db'
+import { fetchMarketDataSubscription } from './graphql/data-source/market-data'
 
 const pubsub = new PubSub()
 
-const generateMarketData = (): void => {
-  const marketData = generateRandomMarketDataResponse()
+const generateMarketData = async () => {
+  const availablePairs = ['BTC-CAD', 'BTC-USD', 'ETH-CAD']
+  const randomPair =
+    availablePairs[Math.floor(Math.random() * availablePairs.length)]
+
+  const marketData = await fetchMarketDataSubscription(randomPair)
 
   pubsub.publish('DATA_GENERATED', {
     marketData,
@@ -40,10 +45,10 @@ const startApolloServer = async () => {
     schema,
     subscriptions: {
       path: '/subscriptions',
-      onConnect: (connectionParams, webSocket, context) => {
+      onConnect: () => {
         console.log('⚡️ Client connected')
       },
-      onDisconnect: (webSocket, context) => {
+      onDisconnect: () => {
         console.log('⚡️ Client disconnected')
       },
     },

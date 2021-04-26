@@ -5,7 +5,7 @@ type Query {
 }
 
 type Subscription {
-  marketData: MarketDataResponse
+  marketData(baseTicker: String!, quoteTicker: String!): MarketDataResponse!
 }
 
 type MarketDataResponse {
